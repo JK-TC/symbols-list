@@ -59,6 +59,11 @@ module.exports =
 
         @editor = atom.workspace.getActiveTextEditor()
 
+        #only show panel if toggled to visible
+        if @isVisible is no
+            SymbolsList.panel.hide()
+            return
+
         # hide the list without an available text editor (i.e. in settings view)
         if not @editor? || not @editor.getGrammar()?
             SymbolsList.panel.hide()
@@ -155,7 +160,7 @@ module.exports =
                     @recursiveScanRegex( scopeArray.slice(1), val, start )
 
     moveToRange: (range) ->
-
+        
         PositionAfterJump = atom.config.get('symbols-list.positioning.positionAfterJump')
 
         Editor = atom.workspace.getActiveTextEditor()
