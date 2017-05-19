@@ -1,8 +1,15 @@
 {CompositeDisposable} = require 'atom'
-Configuration = require './symbols-list-config'
-SymbolsListView = require './symbols-list-view'
-RegexList = require './symbols-list-regex'
-Crypto = require 'crypto'
+{$}                   = require('atom-space-pen-views')
+Configuration         = require './symbols-list-config'
+Crypto                = require 'crypto'
+CSON                  = require('cson')
+path                  = require 'path'
+SymbolsListView       = require './symbols-list-view'
+
+# Load System and User regex
+RegexListBase = CSON.load(path.join(__dirname, ".", "symbols-list-regex.cson"))
+try RegexListExt = CSON.load(path.join(__dirname, "..", "extensions", "symbols-list-regex.cson")) catch e then RegexListExt = {}
+RegexList = $.extend(true, {}, RegexListBase, RegexListExt)
 
 module.exports =
     config: Configuration,
@@ -152,7 +159,7 @@ module.exports =
                 if key == 'regex'
                     for type,regex of val
                         current = window.performance.now()
-                        if not @editor? || current - start > recursive_time_limit
+                        if not @editor? || current - start > recursive_time_limit || not regex
                             return;
                         @editor.scan regex, (obj) =>
                             @SymbolsListView.addItem({ type:type, label: obj.match[1], objet: obj.match, range: obj.range })
@@ -160,7 +167,7 @@ module.exports =
                     @recursiveScanRegex( scopeArray.slice(1), val, start )
 
     moveToRange: (range) ->
-        
+
         PositionAfterJump = atom.config.get('symbols-list.positioning.positionAfterJump')
 
         Editor = atom.workspace.getActiveTextEditor()
