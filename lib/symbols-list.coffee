@@ -159,7 +159,9 @@ module.exports =
                 if key == 'regex'
                     for type,regex of val
                         current = window.performance.now()
-                        if not @editor? || current - start > recursive_time_limit || not regex
+                        if not regex
+                            continue
+                        if not @editor? || current - start > recursive_time_limit
                             return;
                         @editor.scan regex, (obj) =>
                             @SymbolsListView.addItem({ type:type, label: obj.match[1], objet: obj.match, range: obj.range })
