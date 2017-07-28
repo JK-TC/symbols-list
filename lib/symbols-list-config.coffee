@@ -44,3 +44,13 @@ module.exports =
             type: ["integer"]
             default: 20
             description: "positive value = scroll from top / negative value = scroll from bottom"
+    extensions:
+        order: 3
+        type: "object"
+        properties:
+          extensionsDir:
+            order: 1
+            title: "Extensions File"
+            type: 'string'
+            default: ''
+            description: 'i.e., ~/symbols-list-ext.cson'

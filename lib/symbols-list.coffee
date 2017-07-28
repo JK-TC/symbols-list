@@ -1,14 +1,16 @@
 {CompositeDisposable} = require 'atom'
-{$}                   = require('atom-space-pen-views')
-Configuration         = require './symbols-list-config'
+{$}                   = require 'atom-space-pen-views'
 Crypto                = require 'crypto'
-CSON                  = require('cson')
+CSON                  = require 'cson'
 path                  = require 'path'
+fs                    = require 'fs-plus'
+
+Configuration         = require './symbols-list-config'
 SymbolsListView       = require './symbols-list-view'
 
 # Load System and User regex
 RegexListBase = CSON.load(path.join(__dirname, ".", "symbols-list-regex.cson"))
-try RegexListExt = CSON.load(path.join(__dirname, "..", "extensions", "symbols-list-regex.cson")) catch e then RegexListExt = {}
+try RegexListExt = CSON.load(fs.absolute(atom.config.get('symbols-list.extensions.extensionsDir'))) catch e then RegexListExt = {}
 RegexList = $.extend(true, {}, RegexListBase, RegexListExt)
 
 module.exports =
