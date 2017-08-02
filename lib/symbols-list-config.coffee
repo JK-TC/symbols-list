@@ -48,7 +48,7 @@ module.exports =
         order: 3
         type: "object"
         properties:
-          extensionsDir:
+          extensionsPath:
             order: 1
             title: "Extensions File"
             type: 'string'

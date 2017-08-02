@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "atom-space-pen-views": "^2.0.0",
-    "cson": "^4.1.0",
-    "fs-plus": "^2.10.1"
+    "cson": "^4.1.0"
   }
 }
